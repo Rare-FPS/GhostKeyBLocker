@@ -8,10 +8,10 @@ import threading
 from pystray import Icon as TrayIcon, MenuItem as Item
 from PIL import Image, ImageDraw
 
-# --- CONFIGURATION ---
+
 PROFILE_FILE = "profiles.json"
 SAFE_KEYS = ['esc', 'enter', 'ctrl', 'shift', 'alt', 'caps lock', 'win', 'delete', 'backspace']
-KILL_SWITCH = 'ctrl+alt+c'  # Changed from ctrl+c to preserve Copy functionality
+KILL_SWITCH = 'ctrl+alt+c'  # Changed from ctrl+c 
 
 class GhostKeyBlocker:
     def __init__(self):
@@ -30,10 +30,22 @@ class GhostKeyBlocker:
 
         if not is_admin:
             print("[!] Requesting Administrator Privileges...")
-            # Re-run the program with admin rights
+            #re-run the program with admin rights
             ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
             sys.exit()
 
+    def hide_console(self):
+        """ Hides the terminal window completely """
+        print("\n[i] Hiding terminal in 3 seconds... (Check System Tray)")
+        time.sleep(3) # Give user a moment to read
+        
+        kernel32 = ctypes.WinDLL('kernel32')
+        user32 = ctypes.WinDLL('user32')
+        
+        hWnd = kernel32.GetConsoleWindow()
+        if hWnd:
+            user32.ShowWindow(hWnd, 0) # 0 = SW_HIDE
+            
     def load_profiles(self):
         if not os.path.exists(PROFILE_FILE):
             return {}
@@ -87,7 +99,7 @@ class GhostKeyBlocker:
             
             if event.event_type == 'down':
                 if key == 'esc':
-                    return # Let the loop handle the exit
+                    return # loop handle the exit
                 
                 if key in SAFE_KEYS:
                     print(f"[!] Cannot block safe key: {key}")
@@ -154,6 +166,8 @@ class GhostKeyBlocker:
         # 2. Register Kill Switch
         keyboard.add_hotkey(KILL_SWITCH, self.kill_app)
 
+        self.hide_console()
+        
         # 3. Tray Logic
         def on_quit(icon, item):
             self.unblock_all()
