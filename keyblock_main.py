@@ -60,7 +60,6 @@ class GhostKeyBlocker:
             json.dump(profiles, f, indent=4)
 
     def create_icon_image(self, color="blue"):
-        """ Generates a simple icon for the system tray """
         width = 64
         height = 64
         image = Image.new('RGB', (width, height), (255, 255, 255))
@@ -167,7 +166,7 @@ class GhostKeyBlocker:
         keyboard.add_hotkey(KILL_SWITCH, self.kill_app)
 
         self.hide_console()
-        
+
         # 3. Tray Logic
         def on_quit(icon, item):
             self.unblock_all()
