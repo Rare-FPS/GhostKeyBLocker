@@ -1,7 +1,0 @@
-venv/
-build/
-dist/
-*.spec
-profiles.json
-__pycache__/
-*.pyc
