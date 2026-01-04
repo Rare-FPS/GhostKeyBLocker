@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw
 
 PROFILE_FILE = "profiles.json"
 SAFE_KEYS = ['esc', 'enter', 'ctrl', 'shift', 'alt', 'caps lock', 'win', 'delete', 'backspace']
-KILL_SWITCH = 'ctrl+alt+c'  # Changed from ctrl+c 
+KILL_SWITCH = 'ctrl+alt+c'
 
 class GhostKeyBlocker:
     def __init__(self):
