@@ -22,7 +22,6 @@ class GhostKeyBlocker:
         self.tray_icon = None
 
     def ensure_admin(self):
-        """ Checks for admin rights and restarts if necessary. (Req #10) """
         try:
             is_admin = os.getuid() == 0
         except AttributeError:
@@ -35,7 +34,6 @@ class GhostKeyBlocker:
             sys.exit()
 
     def hide_console(self):
-        """ Hides the terminal window completely """
         print("\n[i] Hiding terminal in 3 seconds... (Check System Tray)")
         time.sleep(3) # Give user a moment to read
         
@@ -69,7 +67,6 @@ class GhostKeyBlocker:
         return image
 
     def kill_app(self):
-        """ The Emergency Kill Switch (Req #7) """
         print("\n[!!!] KILL SWITCH ACTIVATED. Unblocking all keys and exiting.")
         self.unblock_all()
         if self.tray_icon:
